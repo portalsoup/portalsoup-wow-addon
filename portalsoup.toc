@@ -4,3 +4,5 @@
 ## SavedVariables: PortalsoupSavedData
 
 portalsoup.lua
+ui.lua
+cli.lua
