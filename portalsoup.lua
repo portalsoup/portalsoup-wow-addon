@@ -1,4 +1,14 @@
 -- Initialize the persistent data variable
+function init()
+    return {
+        [32098] = "Galleon",
+        [37464] = "Rukhmar",
+        [32099] = "Sha of Anger",
+        [32518] = "Nalak <The Storm Lord>",
+        [32519] = "Oondasta",
+    }
+end
+
 if not PortalsoupSavedData then
     PortalsoupSavedData = init()
 end
@@ -64,7 +74,7 @@ end
 
 C_Timer.NewTicker(1, UpdateDisplay)
 
--- cli
+-- cliz
 SLASH_PORTALSOUP1 = "/portalsoup"
 SlashCmdList["PORTALSOUP"] = function(msg)
     local cmd, args = msg:match("^(%S*)%s*(.*)$")
