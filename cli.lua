@@ -1,53 +1,13 @@
+SLASH_PORTALSOUP1 = "/portalsoup" -- The variable name here must be this way for the game to detect the command's presence
 
--- cli
-SLASH_PORTALSOUP1 = "/portalsoup"
 SlashCmdList["PORTALSOUP"] = function(msg)
     local cmd, args = msg:match("^(%S*)%s*(.*)$")
-    if cmd == "add" then
-        local questID, name = args:match("^(%d+)%s*(.*)$")
-        if questID then
-            questID = tonumber(questID)
-
-            local title = C_QuestLog.GetTitleForQuestID(questID)
-            if (not title or title == "") then
-                title = name
-            end
-
-            if title then
-                print("Tracking quest " .. title)
-            else
-                print("Unable to find " .. questID)
-            end
-            PortalsoupSavedData[questID] = title
-        else
-            print("Usage: /portalsoup add {id} {title}")
-        end
-
-    elseif cmd == "remove" and tonumber(args) then
-        local questID = tonumber(args)
-        if PortalsoupSavedData[questID] then
-            print("Removed '" .. PortalsoupSavedData[questID] .. "' (ID " .. questID .. ")")
-            PortalsoupSavedData[questID] = nil
-        else
-            print("Quest ID " .. questID .. " not tracked.")
-        end
-
-    elseif cmd == "show" then
-        QuestTrackerFrame:Show()
-        print("PortalSoup: Display shown.")
-    elseif cmd == "hide" then
-
-        QuestTrackerFrame:Hide()
-        print("PortalSoup: Display hidden.")
-
-    elseif cmd == "clean" then
-        wipe(PortalsoupSavedData)
-        print("Cleared tracked dailies")
-
-    elseif cmd == "init" then
-        wipe(PortalsoupSavedData)
-        PortalsoupSavedData = init()
-
+    if cmd == "add" then add(args)
+    elseif cmd == "remove" and tonumber(args) then remove(args)
+    elseif cmd == "show" then show()
+    elseif cmd == "hide" then hide()
+    elseif cmd == "clean" then clean()
+    elseif cmd == "init" then init()
     else
         print("PortalSoup commands:")
         print("/portalsoup add <questID> <name>")
