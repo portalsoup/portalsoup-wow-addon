@@ -1,0 +1,6 @@
+## Interface: 110005
+## Version: 1.0.0
+## Title: portalsoup
+## SavedVariables: PortalsoupSavedData
+
+portalsoup.lua
