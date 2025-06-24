@@ -34,7 +34,7 @@ function show()
 end
 
 function hide()
-    QuestTrackerFrame:Show()
+    QuestTrackerFrame:Hide()
 end
 
 function clean()

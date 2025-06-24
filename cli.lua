@@ -9,7 +9,7 @@ SlashCmdList["PORTALSOUP"] = function(msg)
     elseif cmd == "clean" then clean()
     elseif cmd == "init" then init()
     else
-        print("PortalSoup commands:")
+        print("Portalsoup commands:")
         print("/portalsoup add <questID> <name>")
         print("/portalsoup remove <questID>")
         print("/portalsoup show")

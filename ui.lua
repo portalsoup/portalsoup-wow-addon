@@ -6,13 +6,13 @@ Portalsoup.frame:SetBackdrop({
     bgFile = "Interface/Tooltips/UI-Tooltip-Background",
     edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
     tile = true,
-    tileSize = 16,
-    edgeSize = 16,
+    tileSize    = 16,
+    edgeSize    = 16,
     insets = {
-        left = 4,
-        right = 4,
-        top = 4,
-        bottom = 4
+        left    = 4,
+        right   = 4,
+        top     = 4,
+        bottom  = 4
     }
 })
 Portalsoup.frame:SetBackdropColor(0, 0, 0, 0.7)
@@ -41,19 +41,18 @@ Portalsoup.text:SetJustifyH("LEFT")
 Portalsoup.text:SetJustifyV("TOP")
 Portalsoup.text:SetText("")
 
--- Setup update handler
 local function UpdateDisplay()
     local statusText = ""
     for questID, name in pairs(PortalsoupSavedData) do
         local isComplete = C_QuestLog.IsQuestFlaggedCompleted(questID)
-        local completed = string.format("%s |cff00ff00%s|r", questID, name) -- green colored text
-        local incompleted = string.format("%s |cffff0000%s|r", questID, name) -- red colored text
---         local check = complete and "|cff00ff00[x]|r" or "|cffff0000[ ]|r"
-        statusText = statusText .. string.format("%s\n", isComplete and completed or incompleted)
---         statusText = statusText .. string.format("%s %s\n", check, name)
+        local completedString = string.format("%s |cff00ff00%s|r", questID, name) -- green colored text
+        local incompletedString = string.format("%s |cffff0000%s|r", questID, name) -- red colored text
+
+        statusText = statusText .. string.format("%s\n", isComplete and completedString or incompletedString)
     end
     Portalsoup.text:SetText(statusText)
 
+    -- define min dimensions but grow with text
     local width = math.max(200, Portalsoup.text:GetStringWidth() + 20)
     local height = math.max(60, Portalsoup.text:GetStringHeight() + 40)
     Portalsoup.frame:SetSize(width, height)
