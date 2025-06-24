@@ -3,4 +3,8 @@ if not PortalsoupSavedData then
     PortalsoupSavedData = {}
 end
 
-Portalsoup = Portalsoup or {}
+if not Portalsoup then
+    Portalsoup = {}
+end
+
+Portalsoup = Portalsoup or Portalsoup.defaultInit

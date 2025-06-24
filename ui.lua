@@ -32,7 +32,7 @@ end)
 -- Setup window text
 Portalsoup.title = Portalsoup.frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
 Portalsoup.title:SetPoint("TOP", 0, -10)
-Portalsoup.title:SetText("Daily Quests")
+Portalsoup.title:SetText("World Bosses")
 
 Portalsoup.text = Portalsoup.frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 Portalsoup.text:SetPoint("TOPLEFT", 10, -30)
@@ -46,8 +46,8 @@ local function UpdateDisplay()
     local statusText = ""
     for questID, name in pairs(PortalsoupSavedData) do
         local isComplete = C_QuestLog.IsQuestFlaggedCompleted(questID)
-        local completed = string.format("|cff00ff00%s|r", name) -- green colored text
-        local incompleted = string.format("|cffff0000%s|r", name) -- red colored text
+        local completed = string.format("%s |cff00ff00%s|r", questID, name) -- green colored text
+        local incompleted = string.format("%s |cffff0000%s|r", questID, name) -- red colored text
 --         local check = complete and "|cff00ff00[x]|r" or "|cffff0000[ ]|r"
         statusText = statusText .. string.format("%s\n", isComplete and completed or incompleted)
 --         statusText = statusText .. string.format("%s %s\n", check, name)
