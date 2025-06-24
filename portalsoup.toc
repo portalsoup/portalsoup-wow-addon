@@ -1,9 +1,12 @@
 ## Interface: 110005
 ## Version: 1.0.0
 ## Title: portalsoup
-## SavedVariables: PortalsoupSavedData
+## SavedVariables: PortalsoupTrackedQuests
+## SavedVariablesPerCharacter: PortalsoupRecentKills
 
+utils.lua
 portalsoup.lua
 ui.lua
+ui_functions.lua
 cli_functions.lua
 cli.lua
