@@ -1,4 +1,13 @@
--- Setup window
+-- utility functions
+local function timeToDailyReset()
+    return SecondsToTime(GetQuestResetTime())
+end
+
+local function timeToWeeklyReset()
+    return SecondsToTime(C_DateAndTime.GetSecondsUntilWeeklyReset())
+end
+
+-- Setup window frame
 Portalsoup.frame = CreateFrame("Frame", "QuestTrackerFrame", UIParent, "BackdropTemplate")
 Portalsoup.frame:SetSize(200, 200)
 Portalsoup.frame:SetPoint("TOPLEFT")
@@ -41,16 +50,38 @@ Portalsoup.text:SetJustifyH("LEFT")
 Portalsoup.text:SetJustifyV("TOP")
 Portalsoup.text:SetText("")
 
-local function UpdateDisplay()
-    local statusText = ""
+local function red(str)
+    return string.format("|cffff0000%s|r", str)
+end
+
+local function green(str)
+    return string.format("|cff00ff00%s|r", str)
+end
+
+local function generateText()
+    local text = ""
     for questID, name in pairs(PortalsoupSavedData) do
         local isComplete = C_QuestLog.IsQuestFlaggedCompleted(questID)
-        local completedString = string.format("%s |cff00ff00%s|r", questID, name) -- green colored text
-        local incompletedString = string.format("%s |cffff0000%s|r", questID, name) -- red colored text
+        local completedString = string.format("%s %s", questID, green(name)) -- green colored text
+        local incompletedString = string.format("%s %s", questID, red(name)) -- red colored text
 
-        statusText = statusText .. string.format("%s\n", isComplete and completedString or incompletedString)
+        text = text .. string.format("%s\n", isComplete and completedString or incompletedString)
     end
-    Portalsoup.text:SetText(statusText)
+    return text
+end
+
+local function generateTimersText()
+    local weeklyTimer = green("Weekly reset:") .. "  " .. timeToWeeklyReset()
+    local dailyTimer = green("Daily reset:") .. "  " .. timeToDailyReset()
+
+    return string.format("%s\n%s\n\n", weeklyTimer, dailyTimer)
+end
+
+local function UpdateDisplay()
+    local statusText = generateText()
+    local remainingTimeText = generateTimersText()
+
+    Portalsoup.text:SetText(remainingTimeText .. statusText)
 
     -- define min dimensions but grow with text
     local width = math.max(200, Portalsoup.text:GetStringWidth() + 20)
