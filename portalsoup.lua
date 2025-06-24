@@ -17,6 +17,9 @@ Portalsoup.defaultInit = {
     [39287] = "Deathtalon",
     [39289] = "Doomroller",
     [39290] = "Vengeance",
+    [37546] = "Warleader Tome",
+    [84054] = "Croakit",
+    [81763] = "Beledar's Shadow",
 }
 
 Portalsoup = Portalsoup or Portalsoup.defaultInit
