@@ -13,3 +13,7 @@ end
 function green(str)
     return string.format("|cff00ff00%s|r", str)
 end
+
+function cyan(str)
+    return string.format("|cff00ffff%s|r", str)
+end

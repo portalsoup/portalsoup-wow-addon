@@ -13,7 +13,7 @@ function add(args)
         else
             print("Unable to find " .. questID)
         end
-        PortalsoupTrackedQuests[questID] = title
+        PortalsoupTrackedQuests[questID].name = title
     else
         print("Usage: /portalsoup add {id} {title}")
     end
@@ -22,7 +22,7 @@ end
 function remove(args)
     local questID = tonumber(args)
     if PortalsoupTrackedQuests[questID] then
-        print("Removed '" .. PortalsoupTrackedQuests[questID] .. "' (ID " .. questID .. ")")
+        print("Removed '" .. PortalsoupTrackedQuests[questID].name .. "' (ID " .. questID .. ")")
         PortalsoupTrackedQuests[questID] = nil
     else
         print("Quest ID " .. questID .. " not tracked.")
