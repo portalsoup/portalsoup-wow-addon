@@ -6,17 +6,17 @@ end
 
 function calculateQuest(questID, name)
     local isComplete = isQuestComplete(questID)
-    local completedString = string.format("%s\n", green(name)) -- green colored text
-    local incompletedString = string.format("%s\n", red(name)) -- red colored text
+    local completedString = string.format("%s\n", green(name))
+    local incompletedString = string.format("%s\n", name)
 
     if isComplete then return completedString else return incompletedString end
 end
 
--- return true if already logged and after expiration
+-- return true if already dead and after expiration
 function logKill(questID)
     local now = GetTime() -- time since client start
-    if isQuestComplete(questID) and isKillExpired(questID, now) then
-        return true
+    if isQuestComplete(questID) then
+        return isKillExpired(questID, now)
     else
         Portalsoup.recentKills[questID] = now
     end
@@ -43,11 +43,11 @@ local function generateZonesToVisitText()
         end
     end
 
-    local text = green("Zones requiring visit:") .. "\n"
+    local text = cyan("Zones to visit:") .. "\n"
     for _, zone in ipairs(zonesToVisit) do
         zoneText = zone
         if zone == GetZoneText() then
-            zone = cyan(zone)
+            zone = green(zone)
         end
         text = text .. string.format("%s\n", zone)
     end
@@ -67,12 +67,12 @@ local function generateText()
     if text == "" then
         return ""
     end
-    return green("In this zone:") .. "\n" .. text
+    return cyan("This zone:") .. "\n" .. text
 end
 
 local function generateTimersText()
-    local weeklyTimer = green("Weekly reset:") .. "  " .. timeToWeeklyReset()
-    local dailyTimer = green("Daily reset:") .. "  " .. timeToDailyReset()
+    local weeklyTimer = cyan("Weekly reset:") .. "  " .. timeToWeeklyReset()
+    local dailyTimer = cyan("Daily reset:") .. "  " .. timeToDailyReset()
 
     return string.format("%s\n%s\n\n", weeklyTimer, dailyTimer)
 end
