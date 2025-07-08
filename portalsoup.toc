@@ -6,6 +6,7 @@
 
 utils.lua
 portalsoup.lua
+mobs.lua
 ui.lua
 ui_functions.lua
 cli_functions.lua

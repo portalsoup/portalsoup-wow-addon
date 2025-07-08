@@ -1,38 +1,5 @@
 local DELAY_TO_HIDE_SECONDS = 30
 
-function isQuestComplete(questID)
-    return C_QuestLog.IsQuestFlaggedCompleted(questID)
-end
-
-function calculateQuest(questID, name)
-    local isComplete = isQuestComplete(questID)
-    local completedString = string.format("%s\n", green(name))
-    local incompletedString = string.format("%s\n", name)
-
-    if isComplete then return completedString else return incompletedString end
-end
-
--- return true if already dead and after expiration
-function logKill(questID)
-    local now = GetTime() -- time since client start
-    if isQuestComplete(questID) then
-        return isKillExpired(questID, now)
-    else
-        Portalsoup.recentKills[questID] = now
-    end
-    return false
-end
-
-function isKillExpired(questID, timeOfKill)
-    for id, timestamp in pairs(Portalsoup.recentKills) do
-        local duration = timeOfKill - timestamp
-        if id == questID and duration > DELAY_TO_HIDE_SECONDS then
-            return true
-        end
-    end
-    return false
-end
-
 local function generateZonesToVisitText()
     local zonesToVisit = {}
     local knownZones = {}
@@ -56,18 +23,12 @@ end
 
 local function generateText()
     local text = ""
-    for questID, obj in pairs(PortalsoupTrackedQuests) do
-        local isExpiredKill = logKill(questID)
-        local currentZone = GetZoneText()
+    local currentZone = GetZoneText()
+    local mobsInThisZone = filter(PortalsoupTrackedQuests, function(mob)
+        return mob.zone == currentZone
+    end)
 
-        if not isExpiredKill and obj.zone == currentZone then
-            text = text .. calculateQuest(questID, obj.name)
-        end
-    end
-    if text == "" then
-        return ""
-    end
-    return cyan("This zone:") .. "\n" .. text
+    return Portalsoup.MobsUI:Refresh(mobsInThisZone)
 end
 
 local function generateTimersText()
@@ -78,15 +39,18 @@ local function generateTimersText()
 end
 
 local function UpdateDisplay()
-    local statusText = generateText()
+    local dynamicHeight = generateText()
     local remainingTimeText = generateTimersText()
     local zonesToVisitText = generateZonesToVisitText()
 
-    Portalsoup.text:SetText(remainingTimeText .. zonesToVisitText .. statusText)
+    Portalsoup.frame.static.text:SetText(remainingTimeText .. zonesToVisitText .. cyan("\nThis zone:"))
+
+    local width = math.max(180, Portalsoup.frame.static.text:GetStringWidth() + 20)
+    local staticHeight = Portalsoup.frame.static.text:GetStringHeight()
+    Portalsoup.frame.static:SetSize(width, staticHeight)
 
     -- define min dimensions but grow with text
-    local width = math.max(200, Portalsoup.text:GetStringWidth() + 20)
-    local height = math.max(60, Portalsoup.text:GetStringHeight() + 40)
+    local height = staticHeight + dynamicHeight + 40
     Portalsoup.frame:SetSize(width, height)
 end
 
