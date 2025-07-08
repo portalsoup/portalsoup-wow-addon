@@ -22,7 +22,6 @@ local function generateZonesToVisitText()
 end
 
 local function generateText()
-    local text = ""
     local currentZone = GetZoneText()
     local mobsInThisZone = filter(PortalsoupTrackedQuests, function(mob)
         return mob.zone == currentZone
